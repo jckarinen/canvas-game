@@ -2,6 +2,7 @@ import Entity from './entity.ts'
 import Pellet from './pellet.ts'
 import GameUtils from '../game-utils.ts'
 import Fish from './fish.ts'
+import Game from '../game.ts'
 
 export default class Spawner extends Entity {
     totalSpawns: { [key: string]: number } = { fish: 0}
@@ -10,6 +11,8 @@ export default class Spawner extends Entity {
         Pellet.count = 0
     }
     process() {
+        if (this.game.state === Game.STATE_PAUSED) return
+        
         this.onSignalReceived('spawnPellet', () => {
             this._spawnPellet()
         })

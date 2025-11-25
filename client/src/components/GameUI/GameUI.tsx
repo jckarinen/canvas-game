@@ -15,9 +15,8 @@ function GameUI() {
     }, [game]);
 
 
-    const handleSpawnPellet = (e: SyntheticEvent) => {
-        console.log(e)
-        game?.signal('spawnPellet')
+    const handleTogglePause = () => {
+        game?.signal('togglePauseGame')
     }
 
     const handleResetGame = () => {
@@ -27,8 +26,8 @@ function GameUI() {
      return (
          <>
              <div className={'ui'}>
-                 <button className={"ui-btn"} onClick={handleSpawnPellet}>Spawn pellet</button>
                  <button className={"ui-btn"}>Current size: {size}</button>
+                 <button className={"ui-btn"} onClick={handleTogglePause}>Pause/unpause</button>
                  <button className={"ui-btn"} onClick={handleResetGame}>Reset</button>
              </div>
          </>

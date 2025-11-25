@@ -4,9 +4,12 @@ import Main from "./entities/main.ts";
 // import GameUtils from "./game-utils.ts"
 
 export default class Game {
+    static STATE_PAUSED = 'STATE_PAUSED'
+    state: string | null = null
+
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
-    playing: boolean = true
+    running: boolean = true
     lastTime: number = 0
     entities: Set<Entity> = new Set()
     world: {w: number, h: number} = {w: 800, h: 600}
@@ -42,7 +45,7 @@ export default class Game {
     start = (): void => {
         this.timeElapsed = 0
 
-        this.playing = true
+        this.running = true
         this.setupKeyListeners()
 
         this.entities = new Set()
@@ -64,7 +67,7 @@ export default class Game {
     }
 
     stop = (): void => {
-        this.playing = false
+        this.running = false
         this.keyController.abort()
         console.log('Game stopped')
     }
@@ -79,7 +82,7 @@ export default class Game {
     }
 
     loop = (currentTime: number): void => {
-        if (!this.playing) return
+        if (!this.running) return
         const delta: number = currentTime - this.lastTime
         this.timeElapsed += delta
 

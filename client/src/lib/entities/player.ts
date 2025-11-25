@@ -1,6 +1,7 @@
 import Entity from "./entity.ts";
 import type Pellet from './pellet.ts'
 import type Fish from './fish.ts'
+import Game from '../game.ts'
 
 export default class Player extends Entity {
     sprite = {name: 'fish-white', w: 16, h: 16}
@@ -13,6 +14,8 @@ export default class Player extends Entity {
     checkCollisions = true
 
     process(delta: number) {
+        if (this.game.state === Game.STATE_PAUSED) return
+
         this.onCollideWith('Pellet', (pellet: Pellet) => {
             this.emitTo(pellet, 'eaten')
             this._onConsume(3)

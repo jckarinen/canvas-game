@@ -1,5 +1,6 @@
 import Entity from './entity.ts'
 import GameUtils from '../game-utils.ts'
+import Game from '../game.ts'
 
 export default class Fish extends Entity {
     type = 'Fish'
@@ -21,6 +22,8 @@ export default class Fish extends Entity {
     }
 
     process(delta: number) {
+        if (this.game.state === Game.STATE_PAUSED) return
+
         if (this.isOutOfWorldBounds()) {
             this.destroy()
         }
