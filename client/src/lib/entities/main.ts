@@ -22,6 +22,10 @@ export default class Main extends Entity {
         this.game.onSignalReceived('externalAction', () => {
             console.log('Game received action from component')
         })
+
+        this.game.onSignalReceived('resetGame', () => {
+            this.game.reset()
+        })
     }
 
     _gameOver() {

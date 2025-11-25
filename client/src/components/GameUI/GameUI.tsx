@@ -15,16 +15,21 @@ function GameUI() {
     }, [game]);
 
 
-    const handleClick = (e: SyntheticEvent) => {
+    const handleSpawnPellet = (e: SyntheticEvent) => {
         console.log(e)
         game?.signal('spawnPellet')
+    }
+
+    const handleResetGame = () => {
+        game?.signal('resetGame')
     }
 
      return (
          <>
              <div className={'ui'}>
-                 <button className={"ui-btn"} onClick={handleClick}>Spawn pellet</button>
+                 <button className={"ui-btn"} onClick={handleSpawnPellet}>Spawn pellet</button>
                  <button className={"ui-btn"}>Current size: {size}</button>
+                 <button className={"ui-btn"} onClick={handleResetGame}>Reset</button>
              </div>
          </>
      )
