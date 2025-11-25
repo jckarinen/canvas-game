@@ -11,6 +11,8 @@ export default class Main extends Entity {
         this.game.addEntity(player)
 
         this.game.addEntity(new Spawner())
+
+        this.connect('gameOver', this._gameOver)
     }
     process() {
         if (this.game.keyJustPressed('f')) {
@@ -20,5 +22,10 @@ export default class Main extends Entity {
         this.game.onSignalReceived('externalAction', () => {
             console.log('Game received action from component')
         })
+    }
+
+    _gameOver() {
+        console.log('Game over :(')
+        this.game.reset()
     }
 }

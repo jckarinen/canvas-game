@@ -74,6 +74,12 @@ export default abstract class Entity {
         }
     }
 
+    isOutOfWorldBounds(bufX: number | null = null, bufY: number | null = null): boolean {
+        if (!bufX) bufX = this.dim.w
+        if (!bufY) bufY = this.dim.h
+        return !GameUtils.isEntityWithinBounds(this, 0, 0, this.game.world.w, this.game.world.h, bufX, bufY)
+    }
+
     onSignalReceived(name: string, callback: CallableFunction) {
         this.game.onSignalReceived(name, callback)
     }
@@ -117,7 +123,12 @@ export default abstract class Entity {
 
     applyForce(delta: number, force: number | null = null) {
         force = force ?? this.moveForce
-        this.accel.x += Math.cos(this.rotation) * force *  delta
+        this.accel.x += Math.cos(this.rotation) * force * delta
         this.accel.y += Math.sin(this.rotation) * force * delta
+    }
+
+    stayInBounds(): void {
+        this.pos.x = GameUtils.clamp(this.pos.x, this.dim.w / 2, this.game.world.w - this.dim.w / 2)
+        this.pos.y = GameUtils.clamp(this.pos.y, this.dim.h / 2, this.game.world.h - this.dim.h / 2)
     }
 }

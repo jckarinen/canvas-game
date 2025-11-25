@@ -60,7 +60,11 @@ export default class GameUtils {
         return Math.floor(Math.random() * (end - start + 1)) + start
     }
 
-    static randChoice(arr: Array<never>): never {
+    static randFloatBetween(start: number, end: number) {
+        return Math.random() * (end - start) + start
+    }
+
+    static randChoice(arr: Array<unknown>): unknown {
         return arr[GameUtils.randIntBetween(0, arr.length - 1)]
     }
 
@@ -71,4 +75,7 @@ export default class GameUtils {
         }
     }
 
+    static isEntityWithinBounds(ety: Entity, x1: number, y1: number, x2: number, y2: number,  bufX: number = 0, bufY: number = 0) {
+        return (x1 - bufX <= ety.pos.x && ety.pos.x <= x2 + bufX) && (y1 - bufY <= ety.pos.y && ety.pos.y <= y2 + bufY)
+    }
 }

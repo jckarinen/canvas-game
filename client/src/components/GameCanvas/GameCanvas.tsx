@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Game from '../../lib/game'
-import GameUI from '../GameUI/GameUI.tsx';
+import GameUI from '../GameUI/GameUI.tsx'
 import { GameContext } from '../GameContext/GameContext.tsx'
 
 function GameCanvas() {

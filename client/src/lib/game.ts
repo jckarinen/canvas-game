@@ -10,8 +10,8 @@ export default class Game {
     lastTime: number = 0
     entities: Set<Entity> = new Set()
     world: {w: number, h: number} = {w: 800, h: 600}
-    activeCamera: Camera
-    main: Main
+    activeCamera!: Camera
+    main!: Main
     assets: string[] = [
         'fish-white',
         'fish-purple',
@@ -24,9 +24,10 @@ export default class Game {
     sprites: { [key: string]: HTMLImageElement } = {}
     keysPressed: { [key: string]: boolean } = {}
     keysJustPressed: { [key: string]: boolean } = {}
-    keyController = new AbortController()
+    keyController!: AbortController
     eventNameToCallback: Map<string, CallableFunction> = new Map()
     signals: Map<string, object> = new Map()
+    timeElapsed!: number
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
@@ -36,19 +37,24 @@ export default class Game {
         this.ctx.imageSmoothingEnabled = true
         this.ctx.imageSmoothingQuality = 'high'
         this.ctx.fillStyle = 'midnightBlue'
+    }
+
+    start = (): void => {
+        this.timeElapsed = 0
+
+        this.playing = true
+        this.setupKeyListeners()
+
+        this.entities = new Set()
 
         this.main = new Main()
         this.addEntity(this.main)
 
         const camera = Camera._default(this)
-        camera.game = this
         this.activeCamera = camera
+
         this.addEntity(camera)
 
-        this.setupKeyListeners()
-    }
-
-    start = (): void => {
         for (const ety of this.entities) {
             ety.onGameStart()
         }
@@ -63,9 +69,19 @@ export default class Game {
         console.log('Game stopped')
     }
 
+    reset = (): void => {
+        this.stop()
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                this.start()
+            })
+        })
+    }
+
     loop = (currentTime: number): void => {
         if (!this.playing) return
         const delta: number = currentTime - this.lastTime
+        this.timeElapsed += delta
 
         for (const entity of this.entities) {
             entity.processCollisions()
@@ -139,8 +155,8 @@ export default class Game {
     }
 
     setupKeyListeners(): void {
+        this.keyController = new AbortController()
         window.addEventListener('keydown', (e) => {
-            // console.log(e.key) // TODO: temp
             this.keysPressed[e.key] = true
             this.keysJustPressed[e.key] = true
             requestAnimationFrame(() => {
