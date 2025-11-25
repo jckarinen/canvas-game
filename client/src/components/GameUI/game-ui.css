@@ -1,0 +1,12 @@
+.ui {
+    /* TODO: Allow width to be updated */
+    --canvas-width: 800px;
+    --canvas-height: 600px;
+    position: absolute;
+    opacity: 0.6
+}
+
+.ui-btn {
+    width: 200px;
+    height: 80px;
+}

@@ -1,0 +1,34 @@
+import './game-ui.css'
+import { GameContext } from '../GameContext/GameContext.tsx'
+import { type SyntheticEvent, useContext, useEffect, useState } from 'react'
+function GameUI() {
+    const game = useContext(GameContext)
+    const [size, setSize] = useState<number | string>('Unknown!')
+
+    const handlePlayerSizeChange = (data: { size: number }) => {
+        setSize(() => data.size)
+    }
+
+    useEffect(() => {
+        if (game === null) return
+        game.on('playerSizeChanged', handlePlayerSizeChange)
+    }, [game]);
+
+
+    const handleClick = (e: SyntheticEvent) => {
+        console.log(e)
+        game?.signal('spawnPellet')
+    }
+
+     return (
+         <>
+             <div className={'ui'}>
+                 <button className={"ui-btn"} onClick={handleClick}>Spawn pellet</button>
+                 <button className={"ui-btn"}>Current size: {size}</button>
+             </div>
+         </>
+     )
+}
+
+
+export default GameUI
