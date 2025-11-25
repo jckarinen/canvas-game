@@ -5,6 +5,10 @@ import Fish from './fish.ts'
 
 export default class Spawner extends Entity {
     totalSpawns: { [key: string]: number } = { fish: 0}
+
+    onCreate() {
+        Pellet.count = 0
+    }
     process() {
         this.onSignalReceived('spawnPellet', () => {
             this._spawnPellet()
