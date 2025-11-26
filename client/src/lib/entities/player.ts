@@ -45,9 +45,8 @@ export default class Player extends Entity {
 
     _onConsume(factor: number = 1) {
         const moveGrowthFactor = (1 + factor * 0.01)
-        console.log(moveGrowthFactor)
         this.dim.w += factor
-        this.dim.h += factor
+        this.dim.h += factor * (this.dim.h / this.dim.w)
         this.sprite.w += factor
         this.sprite.h += factor
         this.moveForce *= moveGrowthFactor

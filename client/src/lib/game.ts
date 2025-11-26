@@ -31,6 +31,7 @@ export default class Game {
     eventNameToCallback: Map<string, CallableFunction> = new Map()
     signals: Map<string, object> = new Map()
     timeElapsed!: number
+    debug: boolean = false
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas
@@ -40,6 +41,8 @@ export default class Game {
         this.ctx.imageSmoothingEnabled = true
         this.ctx.imageSmoothingQuality = 'high'
         this.ctx.fillStyle = 'midnightBlue'
+        this.ctx.strokeStyle = 'green'
+        this.ctx.lineWidth = 2
     }
 
     start = (): void => {
@@ -92,20 +95,20 @@ export default class Game {
             entity.clearCollisions()
         }
 
-        this.render()
+        this.render(this.debug)
 
         this.lastTime = currentTime
         requestAnimationFrame(this.loop)
     }
 
-    render = (): void => {
+    render = (debug: boolean = false): void => {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
         for (const ety of this.entities) {
-            this.renderEntity(ety)
+            this.renderEntity(ety, debug)
         }
     }
 
-    renderEntity= (ety: Entity): void => {
+    renderEntity= (ety: Entity, debug: boolean = false): void => {
         if (ety.sprite.name === null) return
         const widthRatio: number = this.canvas.width / this.world.w
         const heightRatio: number = this.canvas.height / this.world.h
@@ -119,6 +122,14 @@ export default class Game {
             -ety.sprite.h / 2 * heightRatio * this.activeCamera.zoom,
             ety.sprite.w * widthRatio * this.activeCamera.zoom,
             ety.sprite.h * heightRatio * this.activeCamera.zoom)
+        if (debug) { // draw "hitbox"
+            this.ctx.strokeRect(
+                -ety.dim.w / 2 * widthRatio * this.activeCamera.zoom,
+                -ety.dim.h / 2 * heightRatio * this.activeCamera.zoom,
+                ety.dim.w * widthRatio * this.activeCamera.zoom,
+                ety.dim.h * heightRatio * this.activeCamera.zoom
+            )
+        }
         this.ctx.restore()
     }
 

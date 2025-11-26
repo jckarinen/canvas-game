@@ -12,7 +12,7 @@ export default class Spawner extends Entity {
     }
     process() {
         if (this.game.state === Game.STATE_PAUSED) return
-        
+
         this.onSignalReceived('spawnPellet', () => {
             this._spawnPellet()
         })

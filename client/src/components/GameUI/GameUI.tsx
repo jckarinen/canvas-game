@@ -1,6 +1,6 @@
 import './game-ui.css'
 import { GameContext } from '../GameContext/GameContext.tsx'
-import { type SyntheticEvent, useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 function GameUI() {
     const game = useContext(GameContext)
     const [size, setSize] = useState<number | string>('Unknown!')
@@ -23,12 +23,17 @@ function GameUI() {
         game?.signal('resetGame')
     }
 
-     return (
+    const handleToggleDebug = () => {
+        game?.signal('toggleDebug')
+    }
+
+    return (
          <>
              <div className={'ui'}>
                  <button className={"ui-btn"}>Current size: {size}</button>
                  <button className={"ui-btn"} onClick={handleTogglePause}>Pause/unpause</button>
                  <button className={"ui-btn"} onClick={handleResetGame}>Reset</button>
+                 <button className={"ui-btn"} onClick={handleToggleDebug}>Toggle hitboxes</button>
              </div>
          </>
      )

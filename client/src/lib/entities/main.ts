@@ -31,6 +31,10 @@ export default class Main extends Entity {
         this.game.onSignalReceived('togglePauseGame', () => {
             this.game.state = this.game.state === Game.STATE_PAUSED ? null : Game.STATE_PAUSED
         })
+
+        this.game.onSignalReceived('toggleDebug', () => {
+            this.game.debug = !this.game.debug
+        })
     }
 
     _gameOver() {
